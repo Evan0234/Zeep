@@ -97,7 +97,6 @@
     </div>
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
-            const API_KEY = "${{secrets.GEMINI_API_KEY}}"; 
             const chatForm = document.getElementById('chatForm');
             const chatContainer = document.getElementById('chatContainer');
 
@@ -105,26 +104,30 @@
                 e.preventDefault();
                 const userInput = document.getElementById('userInput').value;
 
-                // Add user message to chat
+
                 const userMessage = document.createElement('div');
                 userMessage.classList.add('message', 'user-message');
                 userMessage.textContent = userInput;
                 chatContainer.appendChild(userMessage);
 
                 try {
-                    const response = await fetch(`/api/generate?prompt=${encodeURIComponent(userInput)}`, {
+                    const response = await fetch('/api/generate', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${API_KEY}`
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ prompt: userInput })
                     });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
                     const data = await response.json();
-                    const aiResponse = data.response; 
+                    const aiResponse = data.response;
 
 
-                  const aiMessage = document.createElement('div');
+                    const aiMessage = document.createElement('div');
                     aiMessage.classList.add('message', 'ai-message');
                     aiMessage.textContent = aiResponse;
                     chatContainer.appendChild(aiMessage);
@@ -137,7 +140,7 @@
                 }
 
 
-              document.getElementById('userInput').value = '';
+                document.getElementById('userInput').value = '';
             });
         });
     </script>
