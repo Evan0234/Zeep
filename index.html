@@ -104,7 +104,7 @@
                 e.preventDefault();
                 const userInput = document.getElementById('userInput').value;
 
-
+                // Add user message to chat
                 const userMessage = document.createElement('div');
                 userMessage.classList.add('message', 'user-message');
                 userMessage.textContent = userInput;
@@ -126,7 +126,7 @@
                     const data = await response.json();
                     const aiResponse = data.response;
 
-
+                    // Add AI message to chat
                     const aiMessage = document.createElement('div');
                     aiMessage.classList.add('message', 'ai-message');
                     aiMessage.textContent = aiResponse;
@@ -139,7 +139,7 @@
                     chatContainer.appendChild(aiMessage);
                 }
 
-
+                // Clear input
                 document.getElementById('userInput').value = '';
             });
         });
